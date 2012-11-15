@@ -15,7 +15,7 @@
     </script>
 </head>
 
-<body>
+<body style="padding-bottom: 250px;">
     <h1>jQuery Tokeninput Demos</h1>
 
     <h2>Simple Server-Backed Search</h2>
@@ -720,5 +720,75 @@
         </script>
     </div>
 
+    <h2 id="theme">Email Search</h2>
+    <div>
+        <input type="text" id="demo-input-emails" name="blah2" />
+        <input type="button" value="Submit" />
+        <script type="text/javascript">
+        $(document).ready(function () {
+            $("#demo-input-emails").tokenInput(
+            [{
+                "name": "Tom and Jerry",
+                    "email": "test1@domain.com",
+                    "profile_image": "/common-tool-portlet/images/avatar-FPO.jpg"
+            }, {
+                "name": "Tom and Jerry Kids Show",
+                    "email": "test2@domain.com",
+                    "profile_image": "/common-tool-portlet/images/avatar-FPO.jpg"
+            }, {
+                "name": "Tin Man",
+                    "email": "test3@domain.com",
+                    "profile_image": "/common-tool-portlet/images/avatar-FPO.jpg"
+            }, {
+                "name": "TNA iMPACT!",
+                    "email": "test4@domain.com",
+                    "profile_image": "/common-tool-portlet/images/avatar-FPO.jpg"
+            }, {
+                "name": "Tim Gunn's Guide to Style",
+                    "email": "test5@domain.com",
+                    "profile_image": "/common-tool-portlet/images/avatar-FPO.jpg"
+            }, {
+                "name": "Time Team",
+                    "email": "test6@domain.com",
+                    "profile_image": "/common-tool-portlet/images/avatar-FPO.jpg"
+            }, {
+                "name": "Time Warp",
+                    "email": "test7@domain.com",
+                    "profile_image": "/common-tool-portlet/images/avatar-FPO.jpg"
+            }, {
+                "name": "From the Earth to the Moon",
+                    "email": "test8@domain.com",
+                    "profile_image": "/common-tool-portlet/images/avatar-FPO.jpg"
+            }, {
+                "name": "Foster's Home for Imaginary Friends",
+                    "email": "test9@domain.com",
+                    "profile_image": "/common-tool-portlet/images/avatar-FPO.jpg"
+            }, {
+                "name": "Charley Boorman 'By Any Means'",
+                    "email": "test10@domain.com",
+                    "profile_image": "/common-tool-portlet/images/avatar-FPO.jpg"
+            }], {
+                theme: "facebook",
+                emailField: {
+                    
+                    isValidEmail: function (email) {
+                        var emailPattern = /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/i;
+                        return (email.search(emailPattern) != -1);
+                    },
+                    onWrongEmailFormatter: function (email) {
+                        return '<li class="wrong"><p>' + email + '</p></li>';
+                    },
+                    setItem: function (value) {
+                        return {
+                            name: value,
+                            email: value,
+                            profile_image: ''
+                        };
+                    }
+                }
+            });
+        });
+        </script>
+    </div>
 </body>
 </html>

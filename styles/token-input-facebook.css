@@ -44,6 +44,10 @@ li.token-input-token-facebook {
     white-space: nowrap;
 }
 
+li.token-input-token-facebook.wrong {
+    background: red;
+}
+
 li.token-input-token-facebook p {
     display: inline;
     padding: 0;

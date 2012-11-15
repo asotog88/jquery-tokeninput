@@ -9,6 +9,24 @@
  */
 
 (function ($) {
+
+
+
+
+
+    /* Optional configuration
+     * 
+     * Custom implementation to be able to add emails that are not in the list
+     * if this object exist every entered value will be validated as email if not exist in list
+     * and then added to the current email lis
+     *
+     * emailField: {
+     *     isValidEmail: function(text) {
+     *         return valid;
+     *     } 
+     * }
+     */
+
 // Default settings
 var DEFAULT_SETTINGS = {
     // Search settings
@@ -251,6 +269,7 @@ $.TokenList = function (input, url_or_data, settings) {
             token_list.addClass($(input).data("settings").classes.focused);
         })
         .blur(function () {
+            validateInputEmail(input_box, input_token, settings);
             hide_dropdown();
             $(this).val("");
             token_list.removeClass($(input).data("settings").classes.focused);
@@ -703,6 +722,39 @@ $.TokenList = function (input, url_or_data, settings) {
             select_token(token);
         }
     }
+
+    /**
+     * Custom implementation to be able to validate manually emails input
+     * 
+     * @param inputEmailField Input node where the user types
+     * @param emailFieldConf
+     */
+    function validateInputEmail(inputEmailField, input_token, settings) {
+        var emailsInput = inputEmailField.val();
+        emailsInput = emailsInput.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+        inputEmailField.val(emailsInput);
+        if (settings.emailField && !settings.emailField.isValidEmail(inputEmailField.val()) && inputEmailField.val() != '') {
+            var this_token = settings.emailField.onWrongEmailFormatter(inputEmailField.val());
+            inputEmailField.val('');
+            this_token = $(this_token)
+              .addClass(settings.classes.token)
+              .insertBefore(input_token);
+
+            // The 'delete token' button
+            $("<span>" + settings.deleteText + "</span>")
+                .addClass(settings.classes.tokenDelete)
+                .appendTo(this_token)
+                .click(function () {
+                    delete_token($(this).parent());
+                    hidden_input.change();
+                    return false;
+                });
+        } else if (settings.emailField && settings.emailField.isValidEmail(inputEmailField.val()) && inputEmailField.val() != '') {
+            add_token(settings.emailField.setItem(inputEmailField.val()));
+        }
+    }
+
+
 
     // Delete a token from the token list
     function delete_token (token) {
